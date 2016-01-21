@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import search from './search';
 import randomWords from './random-words';
+import emo from 'emojione';
 
 const moreWordsAndImages = () => {
   const words = randomWords(3);
@@ -35,8 +36,18 @@ const Main = React.createClass({
 const Words = React.createClass({
   render () {
     const words = this.props.words.join(' ');
+    const icons = this.props.words.map(e => {
+      // nicked from https://github.com/Ranks/emojione/blob/master/lib/js/emojione.js:245
+      const unicode = emo.emojioneList[e][emo.emojioneList[e].length-1];
+      const path = emo.imagePathPNG + unicode + '.png' + emo.cacheBustParam;
+      return <img key={unicode} src={path} className={'emojione'}/>;
+    });
+
     return (
-      <h1>{words}</h1>
+      <div>
+        <h1>{words}</h1>
+        {icons}
+      </div>
     );
   }
 });
